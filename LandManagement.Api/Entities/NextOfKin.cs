@@ -33,6 +33,19 @@ public class NextOfKin
     [StringLength(500)]
     public string? Address { get; set; }
 
+    // Additional properties for API compatibility
+    [NotMapped]
+    public string NextOfKinName => Name;
+
+    [NotMapped]
+    public string? PhoneNumber => Contact;
+
+    [NotMapped]
+    public string? Email { get; set; }
+
+    [NotMapped]
+    public string? PhysicalAddress => Address;
+
     // Navigation properties
     public virtual Client Client { get; set; } = null!;
 }

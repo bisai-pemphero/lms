@@ -21,6 +21,10 @@ public class User
     [StringLength(500)]
     public string PasswordHash { get; set; } = string.Empty;
 
+    // Legacy password property for backward compatibility
+    [NotMapped]
+    public string Password => PasswordHash;
+
     [Column("FullName")]
     [StringLength(200)]
     public string? FullName { get; set; }

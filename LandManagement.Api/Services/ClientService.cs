@@ -152,16 +152,18 @@ public class ClientService : IClientService
     {
         // Try to get sequence from ValueSequence table
         var sequence = await _context.ValueSequences
-            .FirstOrDefaultAsync(vs => vs.SequenceName == "CLIENTNO");
+            .FirstOrDefaultAsync(vs => vs.TableName == "T_Clients" || vs.FieldName == "ClientNo");
 
         if (sequence != null)
         {
-            var nextValue = (sequence.LastValue ?? 0) + 1;
-            sequence.LastValue = nextValue;
+            var nextValue = sequence.CurrentValue + 1;
+            sequence.CurrentValue = nextValue;
             await _context.SaveChangesAsync();
             
             // Format: INC + padded number (e.g., INC00001)
-            return $"INC{nextValue:D5}";
+            var prefix = sequence.Prefix ?? "INC";
+            var padding = sequence.Padding ?? 5;
+            return $"{prefix}{nextValue:D{padding}}";
         }
 
         // Fallback: Generate based on current max

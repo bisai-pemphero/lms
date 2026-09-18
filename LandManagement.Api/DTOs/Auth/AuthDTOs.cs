@@ -28,6 +28,20 @@ public class AuthResponse
     public DateTime? ExpiresAt { get; set; }
     public string? Username { get; set; }
     public List<string>? Roles { get; set; }
+
+    public static AuthResponse Fail(string message)
+        => new() { Success = false, Message = message };
+
+    public static AuthResponse Ok(string token, string username, List<string> roles, DateTime expiresAt)
+        => new() 
+        { 
+            Success = true, 
+            Message = "Login successful",
+            Token = token, 
+            Username = username, 
+            Roles = roles,
+            ExpiresAt = expiresAt
+        };
 }
 
 /// <summary>

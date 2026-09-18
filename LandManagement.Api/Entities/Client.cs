@@ -57,6 +57,38 @@ public class Client
     [StringLength(50)]
     public string? CompanyRegNo { get; set; }
 
+    [Column("PhoneNumber")]
+    [StringLength(20)]
+    public string? PhoneNumber { get; set; }
+
+    [Column("City")]
+    [StringLength(100)]
+    public string? City { get; set; }
+
+    [Column("Country")]
+    [StringLength(100)]
+    public string? Country { get; set; }
+
+    [Column("PostalCode")]
+    [StringLength(20)]
+    public string? PostalCode { get; set; }
+
+    [Column("CompanyName")]
+    [StringLength(200)]
+    public string? CompanyName { get; set; }
+
+    [Column("Title")]
+    [StringLength(50)]
+    public string? Title { get; set; }
+
+    [Column("Comments")]
+    [StringLength(500)]
+    public string? Comments { get; set; }
+
+    [Column("Status")]
+    [StringLength(50)]
+    public string? Status { get; set; }
+
     // Navigation properties
     public virtual ICollection<PlotAllocation> PlotAllocations { get; set; } = new List<PlotAllocation>();
     public virtual ICollection<SaleAgreement> SaleAgreements { get; set; } = new List<SaleAgreement>();

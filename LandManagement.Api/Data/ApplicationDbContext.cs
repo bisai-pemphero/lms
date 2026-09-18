@@ -29,10 +29,14 @@ public class ApplicationDbContext : DbContext
     // Users and roles
     public DbSet<User> Users { get; set; }
     public DbSet<Role> Roles { get; set; }
+    public DbSet<CUser> CUsers { get; set; }
 
     // Creditors
     public DbSet<Creditor> Creditors { get; set; }
     public DbSet<CreditorPayment> CreditorPayments { get; set; }
+
+    // Value sequences
+    public DbSet<ValueSequence> ValueSequences { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -55,6 +59,14 @@ public class ApplicationDbContext : DbContext
             entity.Property(e => e.CreatedBy).HasColumnName("CreatedBy").HasMaxLength(100);
             entity.Property(e => e.ClientType).HasColumnName("ClientType").HasMaxLength(50);
             entity.Property(e => e.CompanyRegNo).HasColumnName("CompanyRegNo").HasMaxLength(50);
+            entity.Property(e => e.PhoneNumber).HasColumnName("PhoneNumber").HasMaxLength(20);
+            entity.Property(e => e.City).HasColumnName("City").HasMaxLength(100);
+            entity.Property(e => e.Country).HasColumnName("Country").HasMaxLength(100);
+            entity.Property(e => e.PostalCode).HasColumnName("PostalCode").HasMaxLength(20);
+            entity.Property(e => e.CompanyName).HasColumnName("CompanyName").HasMaxLength(200);
+            entity.Property(e => e.Title).HasColumnName("Title").HasMaxLength(50);
+            entity.Property(e => e.Comments).HasColumnName("Comments").HasMaxLength(500);
+            entity.Property(e => e.Status).HasColumnName("Status").HasMaxLength(50);
         });
 
         // Configure Site entity
@@ -63,6 +75,7 @@ public class ApplicationDbContext : DbContext
             entity.ToTable("T_Sites");
             entity.HasKey(e => e.SiteCode);
             entity.Property(e => e.SiteCode).HasColumnName("SiteCode").HasMaxLength(50);
+            entity.Property(e => e.SiteName).HasColumnName("SiteName").HasMaxLength(100);
             entity.Property(e => e.District).HasColumnName("District").HasMaxLength(100);
             entity.Property(e => e.PhysicalLocation).HasColumnName("PhysicalLocation").HasMaxLength(500);
             entity.Property(e => e.Size).HasColumnName("Size");
@@ -72,15 +85,18 @@ public class ApplicationDbContext : DbContext
             entity.Property(e => e.Balance).HasColumnName("Balance");
             entity.Property(e => e.DevelopmentsDone).HasColumnName("DevelopmentsDone").HasMaxLength(500);
             entity.Property(e => e.DevelopmentCost).HasColumnName("DevelopmentCost");
-            entity.Property(e => e.Ta).HasColumnName("TA").HasMaxLength(100);
+            entity.Property(e => e.TA).HasColumnName("TA").HasMaxLength(100);
             entity.Property(e => e.Village).HasColumnName("Village").HasMaxLength(100);
             entity.Property(e => e.Region).HasColumnName("Region").HasMaxLength(100);
-            entity.Property(e => e.SiteDescription).HasColumnName("SiteDescription").HasMaxLength(1000);
-            entity.Property(e => e.PricePerSquareMeter).HasColumnName("PricePerSquareMeter");
-            entity.Property(e => e.BankingInformation).HasColumnName("BankingInformation").HasMaxLength(500);
+            entity.Property(e => e.Description).HasColumnName("Description").HasMaxLength(1000);
+            entity.Property(e => e.PricePerSqMeter).HasColumnName("PricePerSqMeter");
+            entity.Property(e => e.BankName).HasColumnName("BankName").HasMaxLength(200);
+            entity.Property(e => e.AccountNumber).HasColumnName("AccountNumber").HasMaxLength(50);
             entity.Property(e => e.RoadSize).HasColumnName("RoadSize");
             entity.Property(e => e.RemainingAcreage).HasColumnName("RemainingAcreage");
             entity.Property(e => e.SiteMap).HasColumnName("SiteMap").HasMaxLength(500);
+            entity.Property(e => e.Status).HasColumnName("Status").HasMaxLength(50);
+            entity.Property(e => e.DateCreated).HasColumnName("DateCreated");
         });
 
         // Configure Plot entity
@@ -90,12 +106,16 @@ public class ApplicationDbContext : DbContext
             entity.HasKey(e => e.PlotNo);
             entity.Property(e => e.PlotNo).HasColumnName("PlotNo").HasMaxLength(50);
             entity.Property(e => e.SiteNo).HasColumnName("SiteNo").HasMaxLength(50);
-            entity.Property(e => e.PlotSize).HasColumnName("PlotSize");
-            entity.Property(e => e.PlotValue).HasColumnName("PlotValue");
+            entity.Property(e => e.Block).HasColumnName("Block").HasMaxLength(50);
+            entity.Property(e => e.Area).HasColumnName("PlotSize");
+            entity.Property(e => e.Value).HasColumnName("PlotValue");
             entity.Property(e => e.NormalPrice).HasColumnName("NormalPrice");
             entity.Property(e => e.PromotionPrice).HasColumnName("PromotionPrice");
-            entity.Property(e => e.PlotStatus).HasColumnName("PlotStatus").HasMaxLength(50);
+            entity.Property(e => e.LandTitle).HasColumnName("LandTitle").HasMaxLength(50);
+            entity.Property(e => e.Description).HasColumnName("Description").HasMaxLength(500);
+            entity.Property(e => e.Status).HasColumnName("PlotStatus").HasMaxLength(50);
             entity.Property(e => e.OfferDate).HasColumnName("OfferDate").HasMaxLength(50);
+            entity.Property(e => e.DateCreated).HasColumnName("DateCreated");
 
             entity.HasOne(e => e.Site)
                 .WithMany(s => s.Plots)
