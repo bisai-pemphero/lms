@@ -1,0 +1,539 @@
+﻿using System;
+using System.Activities.Expressions;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
+using System.Data.SqlClient;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Net.Mail;
+using System.Net.Sockets;
+using System.Runtime.InteropServices;
+using System.Security.Policy;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+
+public partial class Customers : System.Web.UI.Page
+{
+    string appconStr;
+    string server, appdb, user, password, version, station;
+    SqlConnection appconSQL2;
+
+    private void readConf()
+    {
+        System.IO.StreamReader sr;
+        {
+            sr = System.IO.File.OpenText(Server.MapPath("../dbconn.ini"));
+
+            string s = "";
+            string[] rfInfo = new string[2];
+            char SplitChar = '=';
+            while ((s = sr.ReadLine()) != null)
+            {
+                if (!(s.Trim() == "") || s.StartsWith("#"))
+                {
+                    rfInfo = s.Split(SplitChar);
+                    switch (rfInfo[0].Trim().ToLower())
+                    {
+                        case "server":
+                            server = rfInfo[1].Trim();
+                            break;
+                        case "user":
+                            user = rfInfo[1].Trim();
+                            break;
+                        case "password":
+                            password = rfInfo[1].Trim();
+                            break;
+                        case "appdb":
+                            appdb = rfInfo[1].Trim();
+                            break;
+                        case "version":
+                            version = rfInfo[1].Trim();
+                            break;
+                    }
+                }
+            }
+        }
+    }
+
+    private void dbconnect()
+    {
+        appconStr = "Data Source=" + server + ";user id=" + user + ";password=" + password + ";max pool size= 65536;Initial Catalog=" + appdb + ";";
+        appconSQL2 = new System.Data.SqlClient.SqlConnection(appconStr);
+        appconSQL2.Open();
+    }
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        readConf();
+        dbconnect();
+
+        if (Session["USER"] != null) lblSession.Text = Session["USER"].ToString();
+        else
+        {
+            this.Response.Redirect("../UserLogin.aspx");
+            return;
+        }
+
+        if (!IsPostBack)
+        {
+            LoadUser();
+        }
+    }
+
+    public void LoadUser()
+    {
+        string sql = "select Fullname from Users where Username = @username";
+        SqlCommand cmd = new SqlCommand(sql, appconSQL2);
+        cmd.Parameters.AddWithValue("@username", lblSession.Text.Trim());
+        SqlDataReader dr = cmd.ExecuteReader();
+        while (dr.Read())
+        {
+            lblUser.Text = dr.GetString(0).ToString();
+        }
+        dr.Close();
+        dr.Dispose();
+    }
+
+    protected async void btnSend_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            if (RemindersAlreadySent("Reminders sent successfully")) 
+            {
+                lblError.Text = "Reminders already sent this month.";
+                return;
+            }
+
+            await SendReminderMessage();
+
+            SaveReminderLogs(lblSession.Text.Trim(), "Reminders sent successfully");
+
+            ScriptManager.RegisterStartupScript(this, this.GetType(),
+            "msg", "$('#successModal').modal('show');", true);
+        }
+        catch (Exception ex)
+        {
+            lblError.Text = "Reminders Error" + ex;
+        }
+    }
+
+    protected async void btnPenalties_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            if (RemindersAlreadySent("Charges sent successfully"))
+            {
+                lblError.Text = "Penaties already added and sent this month.";
+                return;
+            }
+
+            await SendPenaltyMessage();
+
+            AddPenaltyCharges();
+
+            SaveReminderLogs(lblSession.Text.Trim(), "Charges sent successfully");
+
+            ScriptManager.RegisterStartupScript(this, this.GetType(),
+            "msg", "$('#successModal').modal('show');", true);
+        }
+        catch (Exception ex)
+        {
+            lblError.Text = "Penalties Error" + ex;
+        }
+    }
+
+    protected void btnExit_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("Dashboard.aspx");
+    }
+
+    private bool RemindersAlreadySent(string status)
+    {
+        string connectionString = ConfigurationManager.ConnectionStrings["lms"].ConnectionString;
+
+        bool alreadySent = false;
+
+        string sql = "SELECT COUNT(*) FROM ReminderLogs WHERE Status = '"+ status +"' AND  MONTH(DateSent) = MONTH(GETDATE()) AND YEAR(DateSent) = YEAR(GETDATE())";
+
+
+        using (SqlConnection con = new SqlConnection(connectionString))
+        {
+            using (SqlCommand cmd = new SqlCommand(sql, con))
+            {
+                con.Open();
+
+                int count = Convert.ToInt32(cmd.ExecuteScalar());
+
+                alreadySent = count > 0;
+            }
+        }
+
+        return alreadySent;
+    }
+
+    
+    //for charges
+    public async Task SendPenaltyMessage()
+    {
+
+        string connectionString = ConfigurationManager.ConnectionStrings["lms"].ConnectionString;
+
+        List<Contact> contacts = GetContacts(connectionString);
+
+        foreach (var contact in contacts)
+        {
+            try
+            {
+                double oldBalance = Convert.ToDouble(contact.Balance);
+                double newPenalty = Convert.ToDouble(contact.PenaltyCharge);
+                double newBalance = oldBalance + newPenalty;
+
+                string phone = contact.PhoneNumber;
+                string name = contact.Name;
+                string plotNo = contact.PlotNo;
+                string installment = contact.Installment;
+                string balance = newBalance.ToString("N2");
+                string penalty = newPenalty.ToString("N2");
+
+                await SendSmsAsync(phone, name, plotNo, installment, balance, penalty);
+            }
+            catch (Exception ex)
+            {
+                lblError.Text = "There was an error " + ex;
+            }
+        }
+    }
+
+    //for reminders
+    public async Task SendReminderMessage()
+    {
+        string connectionString = ConfigurationManager.ConnectionStrings["lms"].ConnectionString;
+
+        List<Contact> contacts = GetContacts(connectionString);
+
+        foreach (var contact in contacts)
+        {
+            try
+            {
+                double newPenalty = Convert.ToDouble(contact.PenaltyCharge);
+
+                string phone = contact.PhoneNumber;
+                string name = contact.Name;
+                string plotNo = contact.PlotNo;
+                string installment = contact.Installment;
+                string penalty = newPenalty.ToString("N2");
+
+                await SendSmsAsyncReminder(phone, name, installment, penalty);
+            }
+            catch (Exception ex)
+            {
+                lblError.Text = "There was an error " + ex;
+            }
+        }
+    }
+
+    public class Contact
+    {
+        public string Name { get; set; }
+        public string PhoneNumber { get; set; }
+        public string PlotNo { get; set; }
+        public string Installment { get; set; }
+        public string Balance { get; set; }
+        public string PenaltyCharge { get; set; }
+    }
+
+    static List<Contact> GetContacts(string connectionString)
+    {
+        List<Contact> contacts = new List<Contact>();
+
+        using (SqlConnection connection = new SqlConnection(connectionString))
+        {
+            string query = @"SELECT 
+    C.Fullname,
+    C.PhoneNo,
+    P.PlotNo,
+    P.MonthlyInstallment,
+    P.Balance,
+    Pen.Charge
+FROM Plots P
+INNER JOIN Clients C
+    ON P.OfferedTo = C.ClientNo
+INNER JOIN Penalties Pen
+    ON P.MonthlyInstallment BETWEEN Pen.FromRange AND Pen.ToRange
+WHERE P.OfferPeriod > 12 and P.Balance > 0 and P.PlotStatus != 'Pending'
+AND NOT EXISTS
+(
+    SELECT 1
+    FROM PlotPayments PP
+    WHERE PP.PlotNo = P.PlotNo
+    AND PP.SiteNo = P.SiteNo
+    AND MONTH(PP.DatePaid) = MONTH(GETDATE())
+    AND YEAR(PP.DatePaid) = YEAR(GETDATE())
+);
+";
+
+            SqlCommand command = new SqlCommand(query, connection);
+            connection.Open();
+
+            using (SqlDataReader reader = command.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    contacts.Add(new Contact
+                    {
+                        Name = reader["Fullname"].ToString(),
+                        PhoneNumber = reader["PhoneNo"].ToString(),
+                        PlotNo = reader["PlotNo"].ToString(),
+                        Installment = reader["MonthlyInstallment"].ToString(),
+                        Balance = reader["Balance"].ToString(),
+                        PenaltyCharge = reader["Charge"].ToString(),
+                    });
+                }
+            }
+        }
+        return contacts;
+    }
+
+    private void SaveReminderLogs(string sentby, string status)
+    {
+        string sql = @"
+IF NOT EXISTS
+(
+    SELECT 1
+    FROM ReminderLogs
+    WHERE SentBy = @sentBy and Status = @status
+    AND YEAR(DateSent) = YEAR(GETDATE())
+    AND MONTH(DateSent) = MONTH(GETDATE())
+)
+BEGIN
+    INSERT INTO ReminderLogs
+    (
+        Status,
+        DateSent,
+        SentBy
+    )
+    VALUES
+    (
+        @status,
+        GETDATE(),
+        @sentBy
+    )
+END";
+
+        using (SqlCommand cmd = new SqlCommand(sql, appconSQL2))
+        {
+            cmd.Parameters.Add("@sentBy", SqlDbType.NVarChar, 50).Value = sentby;
+            cmd.Parameters.Add("@status", SqlDbType.NVarChar, 50).Value = status;
+            cmd.ExecuteNonQuery();
+        }
+    }
+
+    private async Task<string> SendSmsAsync(string Phone, string customer,
+        string PlotNo, string Installment, string Balance, string PenaltyCharge)
+    {
+        using (var client = new HttpClient())
+        {
+            client.BaseAddress = new Uri("http://206.225.81.36:8989");
+
+            var request = new HttpRequestMessage(HttpMethod.Post, "/api/messaging/sendsms");
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI2NTUiLCJvaWQiOjY1NSwidWlkIjoiN2ZhMDZlOGMtMzgzZS00ZjU5LWJmNjQtY2M1YjE3ZjA1ZmFjIiwiYXBpZCI6NTA2LCJpYXQiOjE3NjcxOTA4MDEsImV4cCI6MjEwNzE5MDgwMX0.VrLYjezPfU-WZXPyvlhU2-VKCZ3iRMFWfOkN-fzqpsJOw8EdbL1N2y0VsQU70YxooZ6QcGWkhczyo7AOHXZeJg");
+            request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+            string Message = "Okondendwa " + customer + ", Chifukwa cholephera kulipira installment yanu ya mwezi uno, chilango cha K" + PenaltyCharge + " chawonjezedwa pa balance yanu ya Plot:" + PlotNo + ". Balance yanu tsopano ndi K" + Balance;
+
+            string theTo = Phone;
+            string theMessage = Message;
+            string senderId = "Innobuild";
+            var json = "{ \"to\": \"" + theTo + "\", \"message\": \"" + theMessage + "\", \"from\": \"Innobuild\" }";
+
+            request.Content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var response = await client.SendAsync(request);
+
+            if (response.IsSuccessStatusCode)
+            {
+                //save log if sent
+
+                SaveSentSms(senderId, theTo, Message, "Sent");
+                string res = await response.Content.ReadAsStringAsync();
+                return "SMS sent successfully: " + res;
+            }
+            else
+            {
+                //save log if not sent
+                SaveSentSms(senderId, theTo, Message, "Not Sent");
+                
+                string err = await response.Content.ReadAsStringAsync();
+                return "Failed to send SMS. Status:" + response.StatusCode + "<br/>Details:" + err;
+            }
+        }
+    }
+
+    private async Task<string> SendSmsAsyncReminder(string Phone, string customer, string Installment, string PenaltyCharge)
+    {
+        using (var client = new HttpClient())
+        {
+            client.BaseAddress = new Uri("http://206.225.81.36:8989");
+
+            var request = new HttpRequestMessage(HttpMethod.Post, "/api/messaging/sendsms");
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI2NTUiLCJvaWQiOjY1NSwidWlkIjoiN2ZhMDZlOGMtMzgzZS00ZjU5LWJmNjQtY2M1YjE3ZjA1ZmFjIiwiYXBpZCI6NTA2LCJpYXQiOjE3NjcxOTA4MDEsImV4cCI6MjEwNzE5MDgwMX0.VrLYjezPfU-WZXPyvlhU2-VKCZ3iRMFWfOkN-fzqpsJOw8EdbL1N2y0VsQU70YxooZ6QcGWkhczyo7AOHXZeJg");
+            request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+            string Message = "Okondendwa " + customer + ", mukumbutsidwa kupereka K" + Installment + " mwezi uno ya Plot yanu. Kulephera kutero balance ikwera ndi ndalama yokwana K" + PenaltyCharge + ". Zikomo.";
+
+            string theTo = Phone;
+            string theMessage = Message;
+            string senderId = "Innobuild";
+            var json = "{ \"to\": \"" + theTo + "\", \"message\": \"" + theMessage + "\", \"from\": \"Innobuild\" }";
+
+            request.Content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var response = await client.SendAsync(request);
+
+            if (response.IsSuccessStatusCode)
+            {
+                //save log if sent
+
+                SaveSentSms(senderId, theTo, Message, "Sent");
+                string res = await response.Content.ReadAsStringAsync();
+                return "SMS sent successfully: " + res;
+            }
+            else
+            {
+                //save log if not sent
+                SaveSentSms(senderId, theTo, Message, "Not Sent");
+
+                string err = await response.Content.ReadAsStringAsync();
+                return "Failed to send SMS. Status:" + response.StatusCode + "<br/>Details:" + err;
+            }
+        }
+    }
+
+
+
+    private void SaveSentSms(string senderId, string theTo, string Message, string status)
+    {
+        string sql2 = @"Insert into [SentMessages] ([SenderId], [Contact], [TextMessage], 
+                [Status], [DateSent]) Values (@senderId, @contact, @message, @status, GETDATE())";
+        SqlCommand cmd2 = new SqlCommand(sql2, appconSQL2);
+        cmd2.Parameters.AddWithValue("@senderId", senderId);
+        cmd2.Parameters.AddWithValue("@contact", theTo);
+        cmd2.Parameters.AddWithValue("@message", Message);
+        cmd2.Parameters.AddWithValue("@status", status);
+        cmd2.ExecuteNonQuery();
+        cmd2.Dispose();
+    }
+    public void LoadReminderLogs()
+    {
+        string connectionString = ConfigurationManager.ConnectionStrings["lms"].ConnectionString;
+
+        using (SqlConnection connection = new SqlConnection(connectionString))
+        {
+            connection.Open();
+
+            SqlCommand command = new SqlCommand(@"
+     SELECT 
+    P.PlotNo,
+    S.PhysicalLocation,
+    C.Fullname,
+    C.PhoneNo,
+
+    FORMAT(CAST(P.MonthlyInstallment AS DECIMAL(18,2)), 'N0') AS MonthlyInstallment,
+    FORMAT(CAST(P.AgreedPrice AS DECIMAL(18,2)), 'N0') AS AgreedPrice,
+    FORMAT(CAST(P.AmountPaid AS DECIMAL(18,2)), 'N0') AS AmountPaid,
+    FORMAT(CAST(P.Balance AS DECIMAL(18,2)), 'N0') AS Balance,
+    FORMAT(CAST(Pen.Charge AS DECIMAL(18,2)), 'N0') AS PenaltyCharge
+
+FROM Plots P
+INNER JOIN Clients C
+    ON P.OfferedTo = C.ClientNo
+
+INNER JOIN Penalties Pen
+    ON CAST(P.MonthlyInstallment AS DECIMAL(18,2)) 
+       BETWEEN CAST(Pen.FromRange AS DECIMAL(18,2)) 
+       AND CAST(Pen.ToRange AS DECIMAL(18,2))
+
+INNER JOIN Sites S
+    ON P.SiteNo = S.SiteCode
+
+WHERE CAST(P.OfferPeriod AS INT) > 12
+AND CAST(P.Balance AS DECIMAL(18,2)) > 0
+AND P.PlotStatus != 'Pending'
+
+AND NOT EXISTS
+(
+    SELECT 1
+    FROM PlotPayments PP
+    WHERE PP.PlotNo = P.PlotNo
+    AND PP.SiteNo = P.SiteNo
+    AND MONTH(PP.DatePaid) = MONTH(GETDATE())
+    AND YEAR(PP.DatePaid) = YEAR(GETDATE())
+);
+", connection);
+            SqlDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                Response.Write("<tr>");
+
+                Response.Write("<td>" + reader["PlotNo"] + "</td>");
+                Response.Write("<td>" + reader["PhysicalLocation"] + "</td>");
+
+                Response.Write("<td>" + reader["Fullname"] + "</td>");
+                Response.Write("<td>" + reader["PhoneNo"] + "</td>");
+
+                Response.Write("<td>" + reader["MonthlyInstallment"] + "</td>");
+                Response.Write("<td>" + reader["AgreedPrice"] + "</td>");
+
+                Response.Write("<td>" + reader["AmountPaid"] + "</td>");
+
+                Response.Write("<td>" + reader["Balance"] + "</td>");
+                Response.Write("<td>" + reader["PenaltyCharge"] + "</td>");
+
+                Response.Write("</tr>");
+            }
+
+            reader.Close();
+        }
+    }
+
+    
+    private void AddPenaltyCharges()
+    {
+        try
+        {
+            string sql = @"
+UPDATE P
+SET P.AgreedPrice = P.AgreedPrice + Pen.Charge, P.Balance = P.Balance + Pen.Charge
+FROM Plots P
+INNER JOIN Penalties Pen
+    ON P.MonthlyInstallment BETWEEN Pen.FromRange AND Pen.ToRange
+WHERE P.OfferPeriod > 12 and P.Balance > 0
+AND NOT EXISTS
+(
+    SELECT 1
+    FROM PlotPayments PP
+    WHERE PP.PlotNo = P.PlotNo
+    AND PP.SiteNo = P.SiteNo
+    AND MONTH(PP.DatePaid) = MONTH(GETDATE())
+    AND YEAR(PP.DatePaid) = YEAR(GETDATE())
+)";
+            SqlCommand cmd = new SqlCommand(sql, appconSQL2);
+            cmd.ExecuteNonQuery();
+            cmd.Dispose();
+        }
+        catch (Exception ex)
+        {
+            lblError.Text = "There was an error updating Pelnaties " + ex.Message;
+        }
+
+    }
+
+    
+}

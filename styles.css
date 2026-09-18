@@ -1,0 +1,158 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Login Container */
+.login-container {
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+}
+
+/* Header */
+.login-header {
+    margin-bottom: 20px;
+}
+
+    .login-header .logo {
+        width: 80px;
+        margin-bottom: 10px;
+    }
+
+    .login-header h1 {
+        font-size: 24px;
+        color: darkblue;
+        margin: 10px 0;
+    }
+
+    .login-header p {
+        font-size: 14px;
+        color: #666;
+    }
+
+/* Form Styles */
+.login-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group {
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+    .form-group label {
+        font-size: 14px;
+        color: #333;
+        margin-bottom: 5px;
+        display: block;
+    }
+
+    /* Form Group with Input Fields */
+    .form-group.input {
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* Centers the input fields horizontally */
+        gap: 10px; /* Adds spacing between input fields */
+    }
+
+        .form-group.input div {
+            width: 100%; /* Ensures the container spans the full width */
+        }
+
+        .form-group.input .text,
+        .form-group.input .form-control {
+            width: 100%; /* Makes the input fields span the full width of their container */
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            outline: none;
+            box-sizing: border-box; /* Ensures padding is included in the width */
+        }
+
+            .form-group.input .text:focus,
+            .form-group.input .form-control:focus {
+                border-color: #007bff;
+                box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+            }
+/* Login Button */
+.login-button {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+    display: block; /* Makes the button a block-level element */
+    width: 100%; /* Ensures the button spans the full width of its container */
+}
+
+    .login-button:hover {
+        background-color: #0056b3;
+    }
+
+/* Forgot Password */
+.forgot-password {
+    margin-top: 10px;
+    text-align: center; /* Centers the "Forgot Password" link */
+}
+
+    .forgot-password a {
+        color: #007bff;
+        text-decoration: none;
+        font-size: 14px;
+    }
+
+        .forgot-password a:hover {
+            text-decoration: underline;
+        }
+
+/* Sign Up Link */
+.signup-link {
+    margin-top: 20px;
+    font-size: 14px;
+    color: #666;
+    text-align: center; /* Centers the "Sign Up" link */
+}
+
+    .signup-link a {
+        color: #007bff;
+        text-decoration: none;
+    }
+
+        .signup-link a:hover {
+            text-decoration: underline;
+        }
+
+/* Error Message */
+#lblError {
+    display: block; /* Ensures the error message is on its own line */
+    margin-top: 10px;
+    text-align: center; /* Centers the error message */
+    color: red;
+    font-weight: bold;
+}
+
+/* Greeting Message */
+#lblGreeting {
+    display: block; /* Ensures the greeting message is on its own line */
+    margin-top: 10px;
+    text-align: center; /* Centers the greeting message */
+    color: #333;
+    font-size: 14px;
+}
