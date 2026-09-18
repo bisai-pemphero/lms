@@ -31,8 +31,8 @@ public class PlotAllocationService : IPlotAllocationService
             if (plot == null)
                 return new PlotAllocationResponse { Success = false, Message = "Plot not found" };
 
-            if (!string.IsNullOrEmpty(plot.PlotStatus) && plot.PlotStatus != "Available")
-                return new PlotAllocationResponse { Success = false, Message = $"Plot is not available. Current status: {plot.PlotStatus}" };
+            if (!string.IsNullOrEmpty(plot.Status) && plot.Status != "Available")
+                return new PlotAllocationResponse { Success = false, Message = $"Plot is not available. Current status: {plot.Status}" };
 
             // Calculate values
             var agreedPrice = request.AgreedPrice > 0 ? request.AgreedPrice : plot.NormalPrice;
@@ -56,7 +56,7 @@ public class PlotAllocationService : IPlotAllocationService
             _context.PlotAllocations.Add(allocation);
 
             // Update plot status
-            plot.PlotStatus = "Allocated";
+            plot.Status = "Allocated";
             _context.Plots.Update(plot);
 
             await _context.SaveChangesAsync();
@@ -81,7 +81,7 @@ public class PlotAllocationService : IPlotAllocationService
                     MonthlyInstallment = allocation.MonthlyInstallment,
                     AllocationDate = allocation.AllocationDate,
                     PostedBy = allocation.PostedBy,
-                    PlotStatus = "Allocated"
+                    Status = "Allocated"
                 }
             };
         }
@@ -115,7 +115,7 @@ public class PlotAllocationService : IPlotAllocationService
             MonthlyInstallment = allocation.MonthlyInstallment,
             AllocationDate = allocation.AllocationDate,
             PostedBy = allocation.PostedBy,
-            PlotStatus = allocation.Plot?.PlotStatus ?? "Unknown"
+            Status = allocation.Plot?.Status ?? "Unknown"
         };
     }
 
@@ -139,7 +139,7 @@ public class PlotAllocationService : IPlotAllocationService
             MonthlyInstallment = a.MonthlyInstallment,
             AllocationDate = a.AllocationDate,
             PostedBy = a.PostedBy,
-            PlotStatus = a.Plot?.PlotStatus ?? "Unknown"
+            Status = a.Plot?.Status ?? "Unknown"
         });
     }
 
@@ -164,7 +164,7 @@ public class PlotAllocationService : IPlotAllocationService
             MonthlyInstallment = a.MonthlyInstallment,
             AllocationDate = a.AllocationDate,
             PostedBy = a.PostedBy,
-            PlotStatus = a.Plot?.PlotStatus ?? "Unknown"
+            Status = a.Plot?.Status ?? "Unknown"
         });
     }
 
@@ -189,7 +189,7 @@ public class PlotAllocationService : IPlotAllocationService
             MonthlyInstallment = a.MonthlyInstallment,
             AllocationDate = a.AllocationDate,
             PostedBy = a.PostedBy,
-            PlotStatus = a.Plot?.PlotStatus ?? "Unknown"
+            Status = a.Plot?.Status ?? "Unknown"
         });
     }
 }

@@ -67,7 +67,7 @@ public class PlotPaymentService : IPlotPaymentService
                 var plot = await _context.Plots.FindAsync(request.PlotNo);
                 if (plot != null)
                 {
-                    plot.PlotStatus = "Fully Paid";
+                    plot.Status = "Fully Paid";
                     _context.Plots.Update(plot);
                 }
             }

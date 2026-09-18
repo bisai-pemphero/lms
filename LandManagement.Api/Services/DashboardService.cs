@@ -14,9 +14,9 @@ public class DashboardService : IDashboardService
     {
         var totalSites = await _context.Sites.CountAsync();
         var totalPlots = await _context.Plots.CountAsync();
-        var availablePlots = await _context.Plots.CountAsync(p => p.PlotStatus == "Available");
-        var allocatedPlots = await _context.Plots.CountAsync(p => p.PlotStatus == "Allocated");
-        var fullyPaidPlots = await _context.Plots.CountAsync(p => p.PlotStatus == "Fully Paid");
+        var availablePlots = await _context.Plots.CountAsync(p => p.Status == "Available");
+        var allocatedPlots = await _context.Plots.CountAsync(p => p.Status == "Allocated");
+        var fullyPaidPlots = await _context.Plots.CountAsync(p => p.Status == "Fully Paid");
         var withdrawnPlots = await _context.PlotWithdrawals.CountAsync();
         
         var totalSales = await _context.PlotAllocations.SumAsync(a => (decimal?)a.AgreedPrice) ?? 0;
@@ -55,8 +55,8 @@ public class DashboardService : IDashboardService
                 SiteCode = site.SiteCode,
                 SiteName = site.SiteName,
                 TotalPlots = plots.Count,
-                AvailablePlots = plots.Count(p => p.PlotStatus == "Available"),
-                SoldPlots = plots.Count(p => p.PlotStatus is "Allocated" or "Fully Paid" or "Sold"),
+                AvailablePlots = plots.Count(p => p.Status == "Available"),
+                SoldPlots = plots.Count(p => p.Status is "Allocated" or "Fully Paid" or "Sold"),
                 TotalValue = plots.Sum(p => p.NormalPrice),
                 Collected = _context.PlotAllocations
                     .Where(a => a.PlotNo.StartsWith(site.SiteCode))

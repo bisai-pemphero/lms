@@ -13,6 +13,10 @@ public class PlotPayment
     [StringLength(50)]
     public string PlotNo { get; set; } = string.Empty;
 
+    [Column("ClientNo")]
+    [StringLength(50)]
+    public string? ClientNo { get; set; }
+
     [Column("AmountPaid")]
     public decimal AmountPaid { get; set; }
 
@@ -26,10 +30,19 @@ public class PlotPayment
     [StringLength(50)]
     public string? PaymentMode { get; set; }
 
+    [Column("PaymentRef")]
+    [StringLength(100)]
+    public string? PaymentRef { get; set; }
+
+    [Column("ReceiptNo")]
+    [StringLength(100)]
+    public string? ReceiptNo { get; set; }
+
     [Column("PostedBy")]
     [StringLength(100)]
     public string? PostedBy { get; set; }
 
     // Navigation properties
     public virtual Plot? Plot { get; set; }
+    public virtual Client? Client { get; set; }
 }

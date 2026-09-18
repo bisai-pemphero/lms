@@ -38,6 +38,12 @@ public class ApplicationDbContext : DbContext
     // Value sequences
     public DbSet<ValueSequence> ValueSequences { get; set; }
 
+    // Change of ownership
+    public DbSet<ChangeOfOwnership> ChangeOfOwnerships { get; set; }
+
+    // Plot withdrawals
+    public DbSet<PlotWithdrawal> PlotWithdrawals { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
@@ -107,14 +113,15 @@ public class ApplicationDbContext : DbContext
             entity.Property(e => e.PlotNo).HasColumnName("PlotNo").HasMaxLength(50);
             entity.Property(e => e.SiteNo).HasColumnName("SiteNo").HasMaxLength(50);
             entity.Property(e => e.Block).HasColumnName("Block").HasMaxLength(50);
-            entity.Property(e => e.Area).HasColumnName("PlotSize");
-            entity.Property(e => e.Value).HasColumnName("PlotValue");
+            entity.Property(e => e.Area).HasColumnName("Area").HasMaxLength(100);
+            entity.Property(e => e.Size).HasColumnName("Size");
             entity.Property(e => e.NormalPrice).HasColumnName("NormalPrice");
             entity.Property(e => e.PromotionPrice).HasColumnName("PromotionPrice");
-            entity.Property(e => e.LandTitle).HasColumnName("LandTitle").HasMaxLength(50);
+            entity.Property(e => e.PlotValue).HasColumnName("PlotValue");
+            entity.Property(e => e.LandTitle).HasColumnName("LandTitle").HasMaxLength(100);
             entity.Property(e => e.Description).HasColumnName("Description").HasMaxLength(500);
-            entity.Property(e => e.Status).HasColumnName("PlotStatus").HasMaxLength(50);
-            entity.Property(e => e.OfferDate).HasColumnName("OfferDate").HasMaxLength(50);
+            entity.Property(e => e.Status).HasColumnName("Status").HasMaxLength(50);
+            entity.Property(e => e.OfferDate).HasColumnName("OfferDate");
             entity.Property(e => e.DateCreated).HasColumnName("DateCreated");
 
             entity.HasOne(e => e.Site)
@@ -297,6 +304,7 @@ public class ApplicationDbContext : DbContext
             entity.Property(e => e.Id).HasColumnName("Id");
             entity.Property(e => e.CreditorId).HasColumnName("CreditorId");
             entity.Property(e => e.AmountPaid).HasColumnName("AmountPaid");
+            entity.Property(e => e.Balance).HasColumnName("Balance");
             entity.Property(e => e.DatePaid).HasColumnName("DatePaid");
             entity.Property(e => e.PaymentMode).HasColumnName("PaymentMode").HasMaxLength(50);
             entity.Property(e => e.PaymentRef).HasColumnName("PaymentRef").HasMaxLength(100);
@@ -305,6 +313,66 @@ public class ApplicationDbContext : DbContext
             entity.HasOne(e => e.Creditor)
                 .WithMany(c => c.CreditorPayments)
                 .HasForeignKey(e => e.CreditorId);
+        });
+
+        // Configure ChangeOfOwnership entity
+        modelBuilder.Entity<ChangeOfOwnership>(entity =>
+        {
+            entity.ToTable("T_ChangeofOwnership");
+            entity.HasKey(e => e.Id);
+            entity.Property(e => e.Id).HasColumnName("Id");
+            entity.Property(e => e.PreviousOwnerNo).HasColumnName("PreviousOwnerNo").HasMaxLength(50);
+            entity.Property(e => e.CurrentOwnerNo).HasColumnName("CurrentOwnerNo").HasMaxLength(50);
+            entity.Property(e => e.PlotNo).HasColumnName("PlotNo").HasMaxLength(50);
+            entity.Property(e => e.SaleAgreementId).HasColumnName("SaleAgreementId");
+            entity.Property(e => e.TransferAmount).HasColumnName("TransferAmount");
+            entity.Property(e => e.Balance).HasColumnName("Balance");
+            entity.Property(e => e.TransferDate).HasColumnName("TransferDate");
+            entity.Property(e => e.Status).HasColumnName("Status").HasMaxLength(50);
+            entity.Property(e => e.PostedBy).HasColumnName("PostedBy").HasMaxLength(100);
+
+            entity.HasOne(e => e.Plot)
+                .WithMany()
+                .HasForeignKey(e => e.PlotNo)
+                .HasPrincipalKey(p => p.PlotNo);
+
+            entity.HasOne(e => e.PreviousOwner)
+                .WithMany()
+                .HasForeignKey(e => e.PreviousOwnerNo)
+                .HasPrincipalKey(c => c.ClientNo);
+
+            entity.HasOne(e => e.CurrentOwner)
+                .WithMany()
+                .HasForeignKey(e => e.CurrentOwnerNo)
+                .HasPrincipalKey(c => c.ClientNo);
+        });
+
+        // Configure PlotWithdrawal entity
+        modelBuilder.Entity<PlotWithdrawal>(entity =>
+        {
+            entity.ToTable("T_PlotWithdrawal");
+            entity.HasKey(e => e.Id);
+            entity.Property(e => e.Id).HasColumnName("Id");
+            entity.Property(e => e.PlotNo).HasColumnName("PlotNo").HasMaxLength(50);
+            entity.Property(e => e.ClientNo).HasColumnName("ClientNo").HasMaxLength(50);
+            entity.Property(e => e.AmountPaid).HasColumnName("AmountPaid");
+            entity.Property(e => e.Balance).HasColumnName("Balance");
+            entity.Property(e => e.RefundAmount).HasColumnName("RefundAmount");
+            entity.Property(e => e.Reason).HasColumnName("Reason").HasMaxLength(500);
+            entity.Property(e => e.Status).HasColumnName("Status").HasMaxLength(50);
+            entity.Property(e => e.CollectedBy).HasColumnName("CollectedBy").HasMaxLength(100);
+            entity.Property(e => e.WithdrawalDate).HasColumnName("WithdrawalDate");
+            entity.Property(e => e.PostedBy).HasColumnName("PostedBy").HasMaxLength(100);
+
+            entity.HasOne(e => e.Plot)
+                .WithMany()
+                .HasForeignKey(e => e.PlotNo)
+                .HasPrincipalKey(p => p.PlotNo);
+
+            entity.HasOne(e => e.Client)
+                .WithMany()
+                .HasForeignKey(e => e.ClientNo)
+                .HasPrincipalKey(c => c.ClientNo);
         });
     }
 }

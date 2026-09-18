@@ -21,11 +21,11 @@ public class PlotCreateRequest
     [Range(0.01, double.MaxValue, ErrorMessage = "Area must be greater than 0")]
     public decimal? Area { get; set; }
 
-    [Range(0, double.MaxValue, ErrorMessage = "Value must be non-negative")]
-    public decimal? Value { get; set; }
+    [Range(0, double.MaxValue, ErrorMessage = "Plot value must be non-negative")]
+    public decimal? PlotValue { get; set; }
 
     [Range(0, double.MaxValue, ErrorMessage = "Normal price must be non-negative")]
-    public decimal? NormalPrice { get; set; }
+    public decimal NormalPrice { get; set; }
 
     [Range(0, double.MaxValue, ErrorMessage = "Promotion price must be non-negative")]
     public decimal? PromotionPrice { get; set; }

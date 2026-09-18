@@ -20,6 +20,9 @@ public class PlotWithdrawal
     [Column("AmountPaid")]
     public decimal AmountPaid { get; set; }
 
+    [Column("Balance")]
+    public decimal Balance { get; set; }
+
     [Column("RefundAmount")]
     public decimal RefundAmount { get; set; }
 
@@ -27,6 +30,22 @@ public class PlotWithdrawal
     [StringLength(500)]
     public string? Reason { get; set; }
 
+    [Column("Status")]
+    [StringLength(50)]
+    public string? Status { get; set; }
+
+    [Column("CollectedBy")]
+    [StringLength(100)]
+    public string? CollectedBy { get; set; }
+
     [Column("WithdrawalDate")]
     public DateTime WithdrawalDate { get; set; }
+
+    [Column("PostedBy")]
+    [StringLength(100)]
+    public string? PostedBy { get; set; }
+
+    // Navigation properties
+    public virtual Plot? Plot { get; set; }
+    public virtual Client? Client { get; set; }
 }

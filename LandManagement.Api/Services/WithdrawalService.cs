@@ -47,7 +47,7 @@ public class WithdrawalService : IWithdrawalService
             var plot = await _context.Plots.FindAsync(request.PlotNo);
             if (plot != null)
             {
-                plot.PlotStatus = "Available";
+                plot.Status = "Available";
                 _context.Plots.Update(plot);
             }
 

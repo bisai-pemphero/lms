@@ -15,6 +15,14 @@ public class Plot
     [StringLength(50)]
     public string? SiteNo { get; set; }
 
+    [Column("Block")]
+    [StringLength(50)]
+    public string? Block { get; set; }
+
+    [Column("Area")]
+    [StringLength(100)]
+    public string? Area { get; set; }
+
     [Column("Size")]
     public decimal? Size { get; set; }
 
@@ -26,6 +34,24 @@ public class Plot
 
     [Column("PlotValue")]
     public decimal? PlotValue { get; set; }
+
+    [Column("LandTitle")]
+    [StringLength(100)]
+    public string? LandTitle { get; set; }
+
+    [Column("Description")]
+    [StringLength(500)]
+    public string? Description { get; set; }
+
+    [Column("Status")]
+    [StringLength(50)]
+    public string? Status { get; set; }
+
+    [Column("OfferDate")]
+    public DateTime? OfferDate { get; set; }
+
+    [Column("DateCreated")]
+    public DateTime? DateCreated { get; set; }
 
     // Navigation properties
     public virtual Site? Site { get; set; }

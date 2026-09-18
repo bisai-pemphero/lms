@@ -16,6 +16,10 @@ public class SaleAgreementPlot
     [StringLength(50)]
     public string PlotNo { get; set; } = string.Empty;
 
+    [Column("Price")]
+    public decimal Price { get; set; }
+
     // Navigation properties
     public virtual SaleAgreement? SaleAgreement { get; set; }
+    public virtual Plot? Plot { get; set; }
 }

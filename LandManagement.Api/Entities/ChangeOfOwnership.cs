@@ -21,9 +21,28 @@ public class ChangeOfOwnership
     [StringLength(50)]
     public string PlotNo { get; set; } = string.Empty;
 
+    [Column("SaleAgreementId")]
+    public int? SaleAgreementId { get; set; }
+
     [Column("TransferAmount")]
     public decimal TransferAmount { get; set; }
 
+    [Column("Balance")]
+    public decimal Balance { get; set; }
+
     [Column("TransferDate")]
     public DateTime TransferDate { get; set; }
+
+    [Column("Status")]
+    [StringLength(50)]
+    public string? Status { get; set; }
+
+    [Column("PostedBy")]
+    [StringLength(100)]
+    public string? PostedBy { get; set; }
+
+    // Navigation properties
+    public virtual Plot? Plot { get; set; }
+    public virtual Client? PreviousOwner { get; set; }
+    public virtual Client? CurrentOwner { get; set; }
 }

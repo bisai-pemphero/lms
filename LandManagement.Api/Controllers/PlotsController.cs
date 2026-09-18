@@ -44,7 +44,7 @@ public class PlotsController : ControllerBase
             SiteName = p.Site?.SiteName,
             Block = p.Block,
             Area = p.Area,
-            Value = p.Value,
+            Value = p.PlotValue,
             NormalPrice = p.NormalPrice,
             PromotionPrice = p.PromotionPrice,
             LandTitle = p.LandTitle,
@@ -76,7 +76,7 @@ public class PlotsController : ControllerBase
             SiteName = plot.Site?.SiteName,
             Block = plot.Block,
             Area = plot.Area,
-            Value = plot.Value,
+            Value = plot.PlotValue,
             NormalPrice = plot.NormalPrice,
             PromotionPrice = plot.PromotionPrice,
             LandTitle = plot.LandTitle,
@@ -105,7 +105,7 @@ public class PlotsController : ControllerBase
             SiteNo = request.SiteNo,
             Block = request.Block,
             Area = request.Area,
-            Value = request.Value,
+            Value = request.PlotValue,
             NormalPrice = request.NormalPrice,
             PromotionPrice = request.PromotionPrice,
             LandTitle = request.LandTitle,
@@ -122,7 +122,7 @@ public class PlotsController : ControllerBase
             SiteName = createdPlot.Site?.SiteName,
             Block = createdPlot.Block,
             Area = createdPlot.Area,
-            Value = createdPlot.Value,
+            Value = createdPlot.PlotValue,
             NormalPrice = createdPlot.NormalPrice,
             PromotionPrice = createdPlot.PromotionPrice,
             LandTitle = createdPlot.LandTitle,
@@ -151,7 +151,7 @@ public class PlotsController : ControllerBase
         {
             Block = request.Block,
             Area = request.Area,
-            Value = request.Value,
+            Value = request.PlotValue,
             NormalPrice = request.NormalPrice,
             PromotionPrice = request.PromotionPrice,
             LandTitle = request.LandTitle,
@@ -171,7 +171,7 @@ public class PlotsController : ControllerBase
             SiteName = updatedPlot.Site?.SiteName,
             Block = updatedPlot.Block,
             Area = updatedPlot.Area,
-            Value = updatedPlot.Value,
+            Value = updatedPlot.PlotValue,
             NormalPrice = updatedPlot.NormalPrice,
             PromotionPrice = updatedPlot.PromotionPrice,
             LandTitle = updatedPlot.LandTitle,
@@ -230,7 +230,7 @@ public class PlotsController : ControllerBase
             SiteName = p.Site?.SiteName,
             Block = p.Block,
             Area = p.Area,
-            Value = p.Value,
+            Value = p.PlotValue,
             NormalPrice = p.NormalPrice,
             PromotionPrice = p.PromotionPrice,
             LandTitle = p.LandTitle,
@@ -258,7 +258,7 @@ public class PlotsController : ControllerBase
             SiteName = p.Site?.SiteName,
             Block = p.Block,
             Area = p.Area,
-            Value = p.Value,
+            Value = p.PlotValue,
             NormalPrice = p.NormalPrice,
             PromotionPrice = p.PromotionPrice,
             LandTitle = p.LandTitle,
@@ -286,7 +286,7 @@ public class PlotsController : ControllerBase
             SiteName = p.Site?.SiteName,
             Block = p.Block,
             Area = p.Area,
-            Value = p.Value,
+            Value = p.PlotValue,
             NormalPrice = p.NormalPrice,
             PromotionPrice = p.PromotionPrice,
             LandTitle = p.LandTitle,
@@ -300,7 +300,7 @@ public class PlotsController : ControllerBase
 
     private List<string> GetValidationErrors()
     {
-        return ModelState.Values
+        return ModelState.PlotValues
             .SelectMany(v => v.Errors)
             .Select(e => e.ErrorMessage)
             .ToList();

@@ -26,6 +26,13 @@ public class SaleAgreement
     [Column("Balance")]
     public decimal Balance { get; set; }
 
+    [Column("DateCreated")]
+    public DateTime? DateCreated { get; set; }
+
+    [Column("Status")]
+    [StringLength(50)]
+    public string? Status { get; set; }
+
     // Navigation properties
     public virtual Client? Client { get; set; }
     public virtual ICollection<SaleAgreementPlot> SaleAgreementPlots { get; set; } = new List<SaleAgreementPlot>();

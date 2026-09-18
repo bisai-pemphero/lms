@@ -38,7 +38,7 @@ public class SaleAgreementService : ISaleAgreementService
                 if (plot == null)
                     return new SaleAgreementResponse { Success = false, Message = $"Plot {plotNo} not found" };
 
-                if (!string.IsNullOrEmpty(plot.PlotStatus) && plot.PlotStatus != "Available")
+                if (!string.IsNullOrEmpty(plot.Status) && plot.Status != "Available")
                     return new SaleAgreementResponse { Success = false, Message = $"Plot {plotNo} is not available" };
 
                 plots.Add(plot);
@@ -79,7 +79,7 @@ public class SaleAgreementService : ISaleAgreementService
                 _context.SaleAgreementPlots.Add(saPlot);
 
                 // Update plot status
-                plot.PlotStatus = "Sold";
+                plot.Status = "Sold";
                 _context.Plots.Update(plot);
             }
 
