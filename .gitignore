@@ -1,0 +1,38 @@
+```
+# Build artifacts
+LandManagement.Api/obj/
+**/bin/
+**/obj/
+
+# Dependencies
+packages/
+node_modules/
+*.userprefs
+
+# Logs
+*.log
+
+# Environment specific
+.env
+.env.local
+*.user
+*.userosscache
+*.suo
+*.csproj.user
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Visual Studio Code
+.vscode/
+
+# Temporary files
+*.tmp
+*.temp
+```
