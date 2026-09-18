@@ -19,6 +19,9 @@ public class SaleAgreementPlot
     [Column("Price")]
     public decimal Price { get; set; }
 
+    [Column("AgreedPrice")]
+    public decimal? AgreedPrice { get; set; }
+
     // Navigation properties
     public virtual SaleAgreement? SaleAgreement { get; set; }
     public virtual Plot? Plot { get; set; }

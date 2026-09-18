@@ -33,7 +33,7 @@ public class Plot
     public decimal? PromotionPrice { get; set; }
 
     [Column("PlotValue")]
-    public decimal? PlotValue { get; set; }
+    public decimal? Value { get; set; }
 
     [Column("LandTitle")]
     [StringLength(100)]

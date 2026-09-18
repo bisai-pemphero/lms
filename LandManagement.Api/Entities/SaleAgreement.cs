@@ -29,6 +29,13 @@ public class SaleAgreement
     [Column("DateCreated")]
     public DateTime? DateCreated { get; set; }
 
+    [Column("AgreementDate")]
+    public DateTime? AgreementDate { get; set; }
+
+    [Column("PostedBy")]
+    [StringLength(100)]
+    public string? PostedBy { get; set; }
+
     [Column("Status")]
     [StringLength(50)]
     public string? Status { get; set; }

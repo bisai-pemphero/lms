@@ -39,7 +39,7 @@ public class CreditorService : ICreditorService
                 Message = "Creditor created successfully",
                 Data = new CreditorDto
                 {
-                    Id = creditor.Id,
+                    CreditorId = creditor.CreditorId,
                     CreditorName = creditor.CreditorName,
                     SiteCode = creditor.SiteCode,
                     AmountAgreed = creditor.AmountAgreed,
@@ -64,7 +64,7 @@ public class CreditorService : ICreditorService
 
         return new CreditorDto
         {
-            Id = creditor.Id,
+            CreditorId = creditor.CreditorId,
             CreditorName = creditor.CreditorName,
             SiteCode = creditor.SiteCode,
             AmountAgreed = creditor.AmountAgreed,
@@ -80,7 +80,7 @@ public class CreditorService : ICreditorService
         var creditors = await _context.Creditors.ToListAsync();
         return creditors.Select(c => new CreditorDto
         {
-            Id = c.Id,
+            Id = c.CreditorId,
             CreditorName = c.CreditorName,
             SiteCode = c.SiteCode,
             AmountAgreed = c.AmountAgreed,

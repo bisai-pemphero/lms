@@ -16,6 +16,7 @@ public class PlotAllocationDto
     public DateTime AllocationDate { get; set; }
     public string? PostedBy { get; set; }
     public string PlotStatus { get; set; } = string.Empty;
+    public string? Status { get; set; }
 }
 
 public class PlotAllocationRequest

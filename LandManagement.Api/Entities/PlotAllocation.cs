@@ -36,6 +36,13 @@ public class PlotAllocation
     [Column("AllocationDate")]
     public DateTime AllocationDate { get; set; }
 
+    [Column("CreatedOn")]
+    public DateTime? CreatedOn { get; set; }
+
+    [Column("Status")]
+    [StringLength(50)]
+    public string? Status { get; set; }
+
     [Column("PostedBy")]
     [StringLength(100)]
     public string? PostedBy { get; set; }

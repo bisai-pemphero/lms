@@ -38,6 +38,10 @@ public class PlotPayment
     [StringLength(100)]
     public string? ReceiptNo { get; set; }
 
+    [Column("ReceiptNumber")]
+    [StringLength(100)]
+    public string? ReceiptNumber { get; set; }
+
     [Column("PostedBy")]
     [StringLength(100)]
     public string? PostedBy { get; set; }

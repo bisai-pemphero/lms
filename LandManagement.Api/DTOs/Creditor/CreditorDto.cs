@@ -4,7 +4,7 @@ namespace LandManagement.Api.DTOs.Creditor;
 
 public class CreditorDto
 {
-    public int Id { get; set; }
+    public int CreditorId { get; set; }
     public string CreditorName { get; set; } = string.Empty;
     public string? SiteCode { get; set; }
     public decimal AmountAgreed { get; set; }

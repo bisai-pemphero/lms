@@ -117,7 +117,7 @@ public class ApplicationDbContext : DbContext
             entity.Property(e => e.Size).HasColumnName("Size");
             entity.Property(e => e.NormalPrice).HasColumnName("NormalPrice");
             entity.Property(e => e.PromotionPrice).HasColumnName("PromotionPrice");
-            entity.Property(e => e.PlotValue).HasColumnName("PlotValue");
+            entity.Property(e => e.Value).HasColumnName("PlotValue");
             entity.Property(e => e.LandTitle).HasColumnName("LandTitle").HasMaxLength(100);
             entity.Property(e => e.Description).HasColumnName("Description").HasMaxLength(500);
             entity.Property(e => e.Status).HasColumnName("Status").HasMaxLength(50);

@@ -53,6 +53,14 @@ public class Creditor
     [Column("DateCreated")]
     public DateTime? DateCreated { get; set; }
 
+    [Column("Status")]
+    [StringLength(50)]
+    public string? Status { get; set; }
+
+    [Column("PostedBy")]
+    [StringLength(100)]
+    public string? PostedBy { get; set; }
+
     // Navigation properties
     public virtual Site? Site { get; set; }
     public virtual ICollection<CreditorPayment> CreditorPayments { get; set; } = new List<CreditorPayment>();

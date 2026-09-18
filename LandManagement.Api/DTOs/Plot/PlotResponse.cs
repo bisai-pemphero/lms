@@ -10,7 +10,7 @@ public class PlotResponse
     public string? SiteName { get; set; } // Populated from related Site
     public string? Block { get; set; }
     public decimal? Area { get; set; }
-    public decimal? PlotValue { get; set; }
+    public decimal? Value { get; set; }
     public decimal NormalPrice { get; set; }
     public decimal? PromotionPrice { get; set; }
     public string? LandTitle { get; set; }

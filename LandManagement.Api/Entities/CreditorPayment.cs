@@ -30,6 +30,9 @@ public class CreditorPayment
     [StringLength(100)]
     public string? PaymentRef { get; set; }
 
+    [Column("Balance")]
+    public decimal? Balance { get; set; }
+
     [Column("PostedBy")]
     [StringLength(100)]
     public string? PostedBy { get; set; }
