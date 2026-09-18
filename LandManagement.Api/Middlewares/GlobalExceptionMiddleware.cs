@@ -42,32 +42,42 @@ public class GlobalExceptionMiddleware
 
         switch (exception)
         {
-            case AppException appEx:
-                statusCode = appEx.StatusCode;
-                message = appEx.Message;
-                if (appEx is ValidationException valEx && valEx.Errors.Any())
+            case ValidationException valEx:
+                statusCode = valEx.StatusCode;
+                message = valEx.Message;
+                if (valEx.Errors.Any())
                 {
                     apiResponse.Errors = valEx.Errors;
                 }
                 break;
 
+            case UnauthorizedException unauthEx:
+                statusCode = unauthEx.StatusCode;
+                message = unauthEx.Message;
+                break;
+
+            case ForbiddenException forbiddenEx:
+                statusCode = forbiddenEx.StatusCode;
+                message = forbiddenEx.Message;
+                break;
+
+            case ConflictException conflictEx:
+                statusCode = conflictEx.StatusCode;
+                message = conflictEx.Message;
+                break;
+
+            case NotFoundException notFoundEx:
+                statusCode = notFoundEx.StatusCode;
+                message = notFoundEx.Message;
+                break;
+
+            case AppException appEx:
+                statusCode = appEx.StatusCode;
+                message = appEx.Message;
+                break;
+
             case KeyNotFoundException:
                 statusCode = (int)HttpStatusCode.NotFound;
-                message = exception.Message;
-                break;
-
-            case UnauthorizedException:
-                statusCode = (int)HttpStatusCode.Unauthorized;
-                message = exception.Message;
-                break;
-
-            case ForbiddenException:
-                statusCode = (int)HttpStatusCode.Forbidden;
-                message = exception.Message;
-                break;
-
-            case ConflictException:
-                statusCode = (int)HttpStatusCode.Conflict;
                 message = exception.Message;
                 break;
 

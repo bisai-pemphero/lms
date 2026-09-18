@@ -163,7 +163,7 @@ public class ClientService : IClientService
             // Format: INC + padded number (e.g., INC00001)
             var prefix = sequence.Prefix ?? "INC";
             var padding = sequence.Padding ?? 5;
-            return $"{prefix}{nextValue:D{padding}}";
+            return $"{prefix}{nextValue.ToString().PadLeft(padding, '0')}";
         }
 
         // Fallback: Generate based on current max

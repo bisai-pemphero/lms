@@ -23,7 +23,7 @@ public class SiteResponse
     public decimal? PricePerSqMeter { get; set; }
     public string? BankName { get; set; }
     public string? AccountNumber { get; set; }
-    public string? RoadSize { get; set; }
+    public decimal? RoadSize { get; set; }
     public decimal? RemainingAcreage { get; set; }
     public string? SiteMap { get; set; }
     public string? Status { get; set; }

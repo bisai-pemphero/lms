@@ -63,8 +63,8 @@ public class SiteCreateRequest
     [StringLength(50, ErrorMessage = "Account number cannot exceed 50 characters")]
     public string? AccountNumber { get; set; }
 
-    [StringLength(100, ErrorMessage = "Road size cannot exceed 100 characters")]
-    public string? RoadSize { get; set; }
+    [Range(0, double.MaxValue, ErrorMessage = "Road size must be non-negative")]
+    public decimal? RoadSize { get; set; }
 
     [Range(0, double.MaxValue, ErrorMessage = "Remaining acreage must be non-negative")]
     public decimal? RemainingAcreage { get; set; }
