@@ -1,38 +1,62 @@
 ```
-# Build artifacts
-LandManagement.Api/obj/
-**/bin/
-**/obj/
+# Compiled and build artifacts
+*.csproj.user
+*.userosscache
+*.sln.docstates
+*.user
+obj/
+bin/
+*.o
+*.obj
+*.exe
+*.dll
+*.so
+*.a
+*.lib
+*.pdb
+*.exp
+*.ilk
+*.iobj
+*.ipdb
+*.tlog
+*.wrn
+*.metagen
+*.cache
+*.generated.cs
+*.AssemblyInfo.cs
+*.AssemblyInfoInputs.cache
 
 # Dependencies
 packages/
 node_modules/
-*.userprefs
+.nuget/
+.nuget.packages/
+**/packages/
+**/node_modules/
 
-# Logs
+# Logs and temp files
 *.log
-
-# Environment specific
-.env
-.env.local
-*.user
-*.userosscache
-*.suo
-*.csproj.user
-
-# OS generated files
-.DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
-Thumbs.db
-
-# Visual Studio Code
-.vscode/
-
-# Temporary files
 *.tmp
 *.temp
+*.cache
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Environment
+.env
+.env.local
+.env.*
+!.env.example
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*.userprefs
+*.user
+.vs/
 ```

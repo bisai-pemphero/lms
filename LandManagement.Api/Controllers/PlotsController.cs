@@ -40,10 +40,10 @@ public class PlotsController : ControllerBase
         var response = plots.Select(p => new PlotResponse
         {
             PlotNo = p.PlotNo,
-            SiteNo = p.SiteNo,
+            SiteNo = p.SiteNo ?? "",
             SiteName = p.Site?.SiteName,
             Block = p.Block,
-            Area = p.Area,
+            Area = p.Size,
             Value = p.Value,
             NormalPrice = p.NormalPrice,
             PromotionPrice = p.PromotionPrice,
@@ -72,11 +72,11 @@ public class PlotsController : ControllerBase
         var response = new PlotResponse
         {
             PlotNo = plot.PlotNo,
-            SiteNo = plot.SiteNo,
+            SiteNo = plot.SiteNo ?? "",
             SiteName = plot.Site?.SiteName,
             Block = plot.Block,
-            Area = plot.Area,
-            Value = plot.PlotValue,
+            Area = plot.Size,
+            Value = plot.Value,
             NormalPrice = plot.NormalPrice,
             PromotionPrice = plot.PromotionPrice,
             LandTitle = plot.LandTitle,
@@ -104,7 +104,7 @@ public class PlotsController : ControllerBase
             PlotNo = request.PlotNo,
             SiteNo = request.SiteNo,
             Block = request.Block,
-            Area = request.Area,
+            Size = request.Area,
             Value = request.PlotValue,
             NormalPrice = request.NormalPrice,
             PromotionPrice = request.PromotionPrice,
@@ -118,11 +118,11 @@ public class PlotsController : ControllerBase
         var response = new PlotResponse
         {
             PlotNo = createdPlot.PlotNo,
-            SiteNo = createdPlot.SiteNo,
+            SiteNo = createdPlot.SiteNo ?? "",
             SiteName = createdPlot.Site?.SiteName,
             Block = createdPlot.Block,
-            Area = createdPlot.Area,
-            Value = createdPlot.PlotValue,
+            Area = createdPlot.Size,
+            Value = createdPlot.Value,
             NormalPrice = createdPlot.NormalPrice,
             PromotionPrice = createdPlot.PromotionPrice,
             LandTitle = createdPlot.LandTitle,
@@ -150,7 +150,7 @@ public class PlotsController : ControllerBase
         var plot = new Plot
         {
             Block = request.Block,
-            Area = request.Area,
+            Size = request.Area,
             Value = request.PlotValue,
             NormalPrice = request.NormalPrice,
             PromotionPrice = request.PromotionPrice,
@@ -167,11 +167,11 @@ public class PlotsController : ControllerBase
         var response = new PlotResponse
         {
             PlotNo = updatedPlot.PlotNo,
-            SiteNo = updatedPlot.SiteNo,
+            SiteNo = updatedPlot.SiteNo ?? "",
             SiteName = updatedPlot.Site?.SiteName,
             Block = updatedPlot.Block,
-            Area = updatedPlot.Area,
-            Value = updatedPlot.PlotValue,
+            Area = updatedPlot.Size,
+            Value = updatedPlot.Value,
             NormalPrice = updatedPlot.NormalPrice,
             PromotionPrice = updatedPlot.PromotionPrice,
             LandTitle = updatedPlot.LandTitle,
@@ -226,10 +226,10 @@ public class PlotsController : ControllerBase
         var response = plots.Select(p => new PlotResponse
         {
             PlotNo = p.PlotNo,
-            SiteNo = p.SiteNo,
+            SiteNo = p.SiteNo ?? "",
             SiteName = p.Site?.SiteName,
             Block = p.Block,
-            Area = p.Area,
+            Area = p.Size,
             Value = p.Value,
             NormalPrice = p.NormalPrice,
             PromotionPrice = p.PromotionPrice,
@@ -254,10 +254,10 @@ public class PlotsController : ControllerBase
         var response = plots.Select(p => new PlotResponse
         {
             PlotNo = p.PlotNo,
-            SiteNo = p.SiteNo,
+            SiteNo = p.SiteNo ?? "",
             SiteName = p.Site?.SiteName,
             Block = p.Block,
-            Area = p.Area,
+            Area = p.Size,
             Value = p.Value,
             NormalPrice = p.NormalPrice,
             PromotionPrice = p.PromotionPrice,
@@ -282,10 +282,10 @@ public class PlotsController : ControllerBase
         var response = plots.Select(p => new PlotResponse
         {
             PlotNo = p.PlotNo,
-            SiteNo = p.SiteNo,
+            SiteNo = p.SiteNo ?? "",
             SiteName = p.Site?.SiteName,
             Block = p.Block,
-            Area = p.Area,
+            Area = p.Size,
             Value = p.Value,
             NormalPrice = p.NormalPrice,
             PromotionPrice = p.PromotionPrice,

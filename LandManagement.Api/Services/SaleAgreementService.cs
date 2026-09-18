@@ -54,7 +54,7 @@ public class SaleAgreementService : ISaleAgreementService
             {
                 AgreementNo = agreementNo,
                 ClientNo = request.ClientNo,
-                AgreementDate = request.AgreementDate ?? DateTime.Now,
+                AgreementDate = request.AgreementDate.GetValueOrDefault(DateTime.Now),
                 TotalAmount = request.TotalAmount ?? totalAmount,
                 AmountPaid = 0,
                 Balance = request.TotalAmount ?? totalAmount,

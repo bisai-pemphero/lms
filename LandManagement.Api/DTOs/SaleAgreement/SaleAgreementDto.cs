@@ -8,7 +8,7 @@ public class SaleAgreementDto
     public string AgreementNo { get; set; } = string.Empty;
     public string ClientNo { get; set; } = string.Empty;
     public string? ClientName { get; set; }
-    public DateTime AgreementDate { get; set; }
+    public DateTime? AgreementDate { get; set; }
     public decimal TotalAmount { get; set; }
     public decimal AmountPaid { get; set; }
     public decimal Balance { get; set; }
