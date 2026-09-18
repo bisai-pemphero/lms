@@ -3,10 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LandManagement.Api.Entities;
 
-/// <summary>
-/// Plot entity representing individual plots within sites.
-/// Maps to T_Plots table in the legacy database.
-/// </summary>
+[Table("T_Plots")]
 public class Plot
 {
     [Key]
@@ -18,40 +15,17 @@ public class Plot
     [StringLength(50)]
     public string? SiteNo { get; set; }
 
-    [Column("Block")]
-    [StringLength(50)]
-    public string? Block { get; set; }
-
-    [Column("PlotSize")]
-    public decimal? Area { get; set; }
-
-    [Column("PlotValue")]
-    public decimal? Value { get; set; }
+    [Column("Size")]
+    public decimal? Size { get; set; }
 
     [Column("NormalPrice")]
-    public decimal? NormalPrice { get; set; }
+    public decimal NormalPrice { get; set; }
 
     [Column("PromotionPrice")]
     public decimal? PromotionPrice { get; set; }
 
-    [Column("LandTitle")]
-    [StringLength(50)]
-    public string? LandTitle { get; set; }
-
-    [Column("Description")]
-    [StringLength(500)]
-    public string? Description { get; set; }
-
-    [Column("PlotStatus")]
-    [StringLength(50)]
-    public string? Status { get; set; }
-
-    [Column("OfferDate")]
-    [StringLength(50)]
-    public string? OfferDate { get; set; }
-
-    [Column("DateCreated")]
-    public DateTime? DateCreated { get; set; }
+    [Column("PlotValue")]
+    public decimal? PlotValue { get; set; }
 
     // Navigation properties
     public virtual Site? Site { get; set; }

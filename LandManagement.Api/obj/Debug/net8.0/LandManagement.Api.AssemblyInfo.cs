@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("LandManagement.Api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6185b2aa280ceefbea8eeedbd845e922452a08d8")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c0a52ad67ff357309ffe20c1e1eeb0f286a916ea")]
 [assembly: System.Reflection.AssemblyProductAttribute("LandManagement.Api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("LandManagement.Api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
