@@ -3,12 +3,16 @@
 LandManagement.Api/obj/
 *.AssemblyInfo.cs
 *.AssemblyInfoInputs.cache
-*.CoreCompileInputs.cache
 
 # Dependencies
-packages/
 bin/
 obj/
+*.dll
+*.exe
+*.pdb
+*.runtimeconfig.dev.json
+*.runtimeconfig.json
+*.deps.json
 
 # Logs
 *.log
@@ -17,10 +21,6 @@ obj/
 .env
 .env.local
 *.env.*
-
-# Editors
-.vscode/
-.idea/
 
 # OS generated files
 .DS_Store

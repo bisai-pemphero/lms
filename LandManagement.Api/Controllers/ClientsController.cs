@@ -36,21 +36,18 @@ public class ClientsController : ControllerBase
         var response = clients.Select(c => new ClientResponse
         {
             ClientNo = c.ClientNo,
-            ClientName = c.ClientName,
+            Fullname = c.Fullname,
+            District = c.District,
+            Address = c.Address,
+            PhoneNo = c.PhoneNo,
+            PhoneNo2 = c.PhoneNo2,
             Email = c.Email,
-            PhoneNumber = c.PhoneNumber,
-            PhysicalAddress = c.PhysicalAddress,
-            City = c.City,
-            Country = c.Country,
-            PostalCode = c.PostalCode,
-            CompanyName = c.CompanyName,
-            Title = c.Title,
-            Comments = c.Comments,
-            Status = c.Status,
-            DateCreated = c.DateCreated
+            Occupation = c.Occupation,
+            IdentityNo = c.IdentityNo,
+            PostedBy = c.PostedBy
         }).ToList();
 
-        return Ok(ApiResponse.Ok(response));
+        return ApiResponse.Ok(response);
     }
 
     /// <summary>
@@ -69,18 +66,15 @@ public class ClientsController : ControllerBase
         var response = new ClientResponse
         {
             ClientNo = client.ClientNo,
-            ClientName = client.ClientName,
+            Fullname = client.Fullname,
+            District = client.District,
+            Address = client.Address,
+            PhoneNo = client.PhoneNo,
+            PhoneNo2 = client.PhoneNo2,
             Email = client.Email,
-            PhoneNumber = client.PhoneNumber,
-            PhysicalAddress = client.PhysicalAddress,
-            City = client.City,
-            Country = client.Country,
-            PostalCode = client.PostalCode,
-            CompanyName = client.CompanyName,
-            Title = client.Title,
-            Comments = client.Comments,
-            Status = client.Status,
-            DateCreated = client.DateCreated,
+            Occupation = client.Occupation,
+            IdentityNo = client.IdentityNo,
+            PostedBy = client.PostedBy,
             NextOfKins = client.NextOfKins?.Select(n => new NextOfKinResponse
             {
                 Id = n.Id,
@@ -92,7 +86,7 @@ public class ClientsController : ControllerBase
             }).ToList()
         };
 
-        return Ok(ApiResponse.Ok(response));
+        return ApiResponse.Ok(response);
     }
 
     /// <summary>
@@ -108,16 +102,15 @@ public class ClientsController : ControllerBase
 
         var client = new Client
         {
-            ClientName = request.ClientName,
+            Fullname = request.Fullname,
+            District = request.District,
+            Address = request.Address,
+            PhoneNo = request.PhoneNo,
+            PhoneNo2 = request.PhoneNo2,
             Email = request.Email,
-            PhoneNumber = request.PhoneNumber,
-            PhysicalAddress = request.PhysicalAddress,
-            City = request.City,
-            Country = request.Country,
-            PostalCode = request.PostalCode,
-            CompanyName = request.CompanyName,
-            Title = request.Title,
-            Comments = request.Comments
+            Occupation = request.Occupation,
+            IdentityNo = request.IdentityNo,
+            PostedBy = request.PostedBy
         };
 
         var createdClient = await _clientService.CreateAsync(client);
@@ -125,18 +118,15 @@ public class ClientsController : ControllerBase
         var response = new ClientResponse
         {
             ClientNo = createdClient.ClientNo,
-            ClientName = createdClient.ClientName,
+            Fullname = createdClient.Fullname,
+            District = createdClient.District,
+            Address = createdClient.Address,
+            PhoneNo = createdClient.PhoneNo,
+            PhoneNo2 = createdClient.PhoneNo2,
             Email = createdClient.Email,
-            PhoneNumber = createdClient.PhoneNumber,
-            PhysicalAddress = createdClient.PhysicalAddress,
-            City = createdClient.City,
-            Country = createdClient.Country,
-            PostalCode = createdClient.PostalCode,
-            CompanyName = createdClient.CompanyName,
-            Title = createdClient.Title,
-            Comments = createdClient.Comments,
-            Status = createdClient.Status,
-            DateCreated = createdClient.DateCreated
+            Occupation = createdClient.Occupation,
+            IdentityNo = createdClient.IdentityNo,
+            PostedBy = createdClient.PostedBy
         };
 
         _logger.LogInformation("Client created: {ClientNo}", createdClient.ClientNo);

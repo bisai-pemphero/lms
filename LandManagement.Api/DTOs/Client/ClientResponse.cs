@@ -1,23 +1,20 @@
 namespace LandManagement.Api.DTOs.Client;
 
 /// <summary>
-/// DTO for client response with all relevant information
+/// DTO for client response matching legacy T_Clients table schema
 /// </summary>
 public class ClientResponse
 {
     public string ClientNo { get; set; } = string.Empty;
-    public string ClientName { get; set; } = string.Empty;
-    public string Email { get; set; } = string.Empty;
-    public string? PhoneNumber { get; set; }
-    public string? PhysicalAddress { get; set; }
-    public string? City { get; set; }
-    public string? Country { get; set; }
-    public string? PostalCode { get; set; }
-    public string? CompanyName { get; set; }
-    public string? Title { get; set; }
-    public string? Comments { get; set; }
-    public string? Status { get; set; }
-    public DateTime? DateCreated { get; set; }
+    public string Fullname { get; set; } = string.Empty;
+    public string? District { get; set; }
+    public string? Address { get; set; }
+    public string? PhoneNo { get; set; }
+    public string? PhoneNo2 { get; set; }
+    public string? Email { get; set; }
+    public string? Occupation { get; set; }
+    public string? IdentityNo { get; set; }
+    public string? PostedBy { get; set; }
     
     // Navigation properties (optional, can be populated separately)
     public List<NextOfKinResponse>? NextOfKins { get; set; }
