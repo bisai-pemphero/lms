@@ -1,0 +1,86 @@
+```gitignore
+# Build artifacts and binaries
+*.exe
+*.dll
+*.so
+*.a
+*.obj
+*.out
+*.pdb
+*.ilk
+
+# Dependencies
+packages/
+bin/
+obj/
+lib/
+node_modules/
+.npm/
+.yarn/
+
+# Logs and temp files
+*.log
+*.tmp
+*.temp
+*.cache
+
+# Environment
+.env
+.env.local
+.env.*
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Coverage
+coverage/
+htmlcov/
+.coverage
+
+# Distribution / Build
+dist/
+build/
+target/
+out/
+release/
+debug/
+
+# Python specific
+__pycache__/
+*.pyc
+*.pyo
+.Python
+pip-log.txt
+pip-delete-this-directory.txt
+.tox/
+.coverage*
+.cache/
+
+# Java specific
+*.class
+*.jar
+*.war
+*.ear
+.gradle/
+build/
+
+# Dotnet specific
+**/bin/
+**/obj/
+**/out/
+*.userprefs
+*.userosscache
+*.sln.docstates
+*.user
+.vs/
+.vscode/
+
+# Original rules preserved
+```
