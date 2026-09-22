@@ -32,6 +32,10 @@ builder.Services.AddScoped<ICreditorService, CreditorService>();
 builder.Services.AddScoped<IChangeOfOwnershipService, ChangeOfOwnershipService>();
 builder.Services.AddScoped<IWithdrawalService, WithdrawalService>();
 builder.Services.AddScoped<IDashboardService, DashboardService>();
+builder.Services.AddScoped<IReportService, ReportService>();
+builder.Services.AddScoped<IVoucherService, VoucherService>();
+builder.Services.AddScoped<IReceiptService, ReceiptService>();
+builder.Services.AddScoped<IDocumentService, DocumentService>();
 
 // Configure JWT Authentication
 builder.Services.AddAuthentication(options =>
