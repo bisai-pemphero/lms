@@ -1,0 +1,14 @@
+ string[] site = drpSite.Text.Split('|');
+ string siteCode = site[0];
+
+ string sqlPlot = @"Select [Price_Per_Square_Meter] from Sites where SiteCode = @code";
+ SqlCommand cmdPlor = new SqlCommand(sqlPlot, appconSQL2);
+ cmdPlor.Parameters.AddWithValue("@code", siteCode);
+ SqlDataReader drPlot = cmdPlor.ExecuteReader();
+ while (drPlot.Read())
+ {
+     lblPricePerSquareMeter.Text = drPlot.GetDouble(0).ToString();
+ }
+
+ drPlot.Close();
+ drPlot.Dispose();
