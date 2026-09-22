@@ -14,80 +14,41 @@ public class Client
     [StringLength(50)]
     public string ClientNo { get; set; } = string.Empty;
 
-    [Column("ClientName")]
-    [StringLength(200)]
-    public string ClientName { get; set; } = string.Empty;
-
-    [Column("IDNo")]
-    [StringLength(50)]
-    public string? IdNo { get; set; }
-
-    [Column("PostalAddress")]
-    [StringLength(500)]
-    public string? PostalAddress { get; set; }
-
-    [Column("PhysicalAddress")]
-    [StringLength(500)]
-    public string? PhysicalAddress { get; set; }
-
-    [Column("Town")]
+    [Column("Fullname")]
     [StringLength(100)]
-    public string? Town { get; set; }
+    public string Fullname { get; set; } = string.Empty;
 
-    [Column("CellPhone")]
-    [StringLength(20)]
-    public string? CellPhone { get; set; }
+    [Column("District")]
+    [StringLength(50)]
+    public string? District { get; set; }
+
+    [Column("Address")]
+    [StringLength(500)]
+    public string? Address { get; set; }
+
+    [Column("PhoneNo")]
+    [StringLength(100)]
+    public string? PhoneNo { get; set; }
+
+    [Column("PhoneNo2")]
+    [StringLength(100)]
+    public string? PhoneNo2 { get; set; }
 
     [Column("Email")]
     [StringLength(100)]
     public string? Email { get; set; }
 
-    [Column("DateCreated")]
-    public DateTime? DateCreated { get; set; }
+    [Column("Occupation")]
+    [StringLength(80)]
+    public string? Occupation { get; set; }
 
-    [Column("CreatedBy")]
-    [StringLength(100)]
-    public string? CreatedBy { get; set; }
+    [Column("IdentityNo")]
+    [StringLength(30)]
+    public string? IdentityNo { get; set; }
 
-    [Column("ClientType")]
-    [StringLength(50)]
-    public string? ClientType { get; set; }
-
-    [Column("CompanyRegNo")]
-    [StringLength(50)]
-    public string? CompanyRegNo { get; set; }
-
-    [Column("PhoneNumber")]
-    [StringLength(20)]
-    public string? PhoneNumber { get; set; }
-
-    [Column("City")]
-    [StringLength(100)]
-    public string? City { get; set; }
-
-    [Column("Country")]
-    [StringLength(100)]
-    public string? Country { get; set; }
-
-    [Column("PostalCode")]
-    [StringLength(20)]
-    public string? PostalCode { get; set; }
-
-    [Column("CompanyName")]
-    [StringLength(200)]
-    public string? CompanyName { get; set; }
-
-    [Column("Title")]
-    [StringLength(50)]
-    public string? Title { get; set; }
-
-    [Column("Comments")]
-    [StringLength(500)]
-    public string? Comments { get; set; }
-
-    [Column("Status")]
-    [StringLength(50)]
-    public string? Status { get; set; }
+    [Column("PostedBy")]
+    [StringLength(60)]
+    public string? PostedBy { get; set; }
 
     // Navigation properties
     public virtual ICollection<PlotAllocation> PlotAllocations { get; set; } = new List<PlotAllocation>();

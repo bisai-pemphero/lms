@@ -1,32 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "C:\\LMs\\LandManagement.Api\\LandManagement.Api.csproj": {}
+    "/workspace/LandManagement.Api/LandManagement.Api.csproj": {}
   },
   "projects": {
-    "C:\\LMs\\LandManagement.Api\\LandManagement.Api.csproj": {
+    "/workspace/LandManagement.Api/LandManagement.Api.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\LMs\\LandManagement.Api\\LandManagement.Api.csproj",
+        "projectUniqueName": "/workspace/LandManagement.Api/LandManagement.Api.csproj",
         "projectName": "LandManagement.Api",
-        "projectPath": "C:\\LMs\\LandManagement.Api\\LandManagement.Api.csproj",
-        "packagesPath": "C:\\Users\\Shammack\\.nuget\\packages\\",
-        "outputPath": "C:\\LMs\\LandManagement.Api\\obj\\",
+        "projectPath": "/workspace/LandManagement.Api/LandManagement.Api.csproj",
+        "packagesPath": "/root/.nuget/packages/",
+        "outputPath": "/workspace/LandManagement.Api/obj/",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Shammack\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/root/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -44,8 +37,7 @@
           "enableAudit": "true",
           "auditLevel": "low",
           "auditMode": "direct"
-        },
-        "SdkAnalysisLevel": "9.0.300"
+        }
       },
       "frameworks": {
         "net8.0": {
@@ -73,6 +65,10 @@
               "target": "Package",
               "version": "[6.6.2, )"
             },
+            "System.Data.SqlClient": {
+              "target": "Package",
+              "version": "[4.9.1, )"
+            },
             "System.IdentityModel.Tokens.Jwt": {
               "target": "Package",
               "version": "[8.0.0, )"
@@ -97,7 +93,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.318/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/8.0.425/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
