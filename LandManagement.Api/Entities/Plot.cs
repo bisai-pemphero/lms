@@ -39,6 +39,55 @@ public class Plot
     [StringLength(100)]
     public string? LandTitle { get; set; }
 
+    [Column("PlotSize")]
+    [StringLength(50)]
+    public string? PlotSize { get; set; }
+
+    [Column("PriceCategory")]
+    [StringLength(60)]
+    public string? PriceCategory { get; set; }
+
+    [Column("PlotStatus")]
+    [StringLength(60)]
+    public string? PlotStatus { get; set; }
+
+    [Column("OfferedTo")]
+    [StringLength(40)]
+    public string? OfferedTo { get; set; }
+
+    [Column("DateOffered")]
+    public DateTime? DateOffered { get; set; }
+
+    [Column("AgreedPrice")]
+    public decimal? AgreedPrice { get; set; }
+
+    [Column("AmountPaid")]
+    public decimal? AmountPaid { get; set; }
+
+    [Column("Balance")]
+    public decimal? Balance { get; set; }
+
+    [Column("FullPaymentDate")]
+    public DateTime? FullPaymentDate { get; set; }
+
+    [Column("DateRegistered")]
+    public DateTime? DateRegistered { get; set; }
+
+    [Column("RegisteredBy")]
+    [StringLength(60)]
+    public string? RegisteredBy { get; set; }
+
+    [Column("OfferPeriod")]
+    [StringLength(50)]
+    public string? OfferPeriod { get; set; }
+
+    [Column("MonthlyInstallment")]
+    public decimal? MonthlyInstallment { get; set; }
+
+    [Column("PlotSketch")]
+    [StringLength(100)]
+    public string? PlotSketch { get; set; }
+
     [Column("Description")]
     [StringLength(500)]
     public string? Description { get; set; }

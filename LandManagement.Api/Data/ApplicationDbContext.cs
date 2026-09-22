@@ -44,6 +44,13 @@ public class ApplicationDbContext : DbContext
     // Plot withdrawals
     public DbSet<PlotWithdrawal> PlotWithdrawals { get; set; }
 
+    // Payment vouchers
+    public DbSet<PaymentVoucher> PaymentVouchers { get; set; }
+    public DbSet<PaymentVoucherCreditor> PaymentVoucherCreditors { get; set; }
+
+    // Penalties
+    public DbSet<Penalty> Penalties { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
@@ -373,6 +380,49 @@ public class ApplicationDbContext : DbContext
                 .WithMany()
                 .HasForeignKey(e => e.ClientNo)
                 .HasPrincipalKey(c => c.ClientNo);
+        });
+
+        // Configure PaymentVoucher entity
+        modelBuilder.Entity<PaymentVoucher>(entity =>
+        {
+            entity.ToTable("PaymentVoucher");
+            entity.HasKey(e => e.PaymentVoucherId);
+            entity.Property(e => e.PaymentVoucherId).HasColumnName("PaymentVoucherId");
+            entity.Property(e => e.PayeeName).HasColumnName("PayeeName").HasMaxLength(200);
+            entity.Property(e => e.Description).HasColumnName("Description").HasMaxLength(500);
+            entity.Property(e => e.Amount).HasColumnName("Amount");
+            entity.Property(e => e.Status).HasColumnName("Status").HasMaxLength(50);
+            entity.Property(e => e.CreatedDate).HasColumnName("CreatedDate");
+            entity.Property(e => e.CreatedBy).HasColumnName("CreatedBy").HasMaxLength(100);
+            entity.Property(e => e.ApprovedBy).HasColumnName("ApprovedBy").HasMaxLength(100);
+            entity.Property(e => e.ApprovedDate).HasColumnName("ApprovedDate");
+        });
+
+        // Configure PaymentVoucherCreditor entity
+        modelBuilder.Entity<PaymentVoucherCreditor>(entity =>
+        {
+            entity.ToTable("PaymentVoucherCreditor");
+            entity.HasKey(e => e.PaymentVoucherId);
+            entity.Property(e => e.PaymentVoucherId).HasColumnName("PaymentVoucherId");
+            entity.Property(e => e.PayeeName).HasColumnName("PayeeName").HasMaxLength(200);
+            entity.Property(e => e.Description).HasColumnName("Description").HasMaxLength(500);
+            entity.Property(e => e.Amount).HasColumnName("Amount");
+            entity.Property(e => e.Status).HasColumnName("Status").HasMaxLength(50);
+            entity.Property(e => e.CreatedDate).HasColumnName("CreatedDate");
+            entity.Property(e => e.CreatedBy).HasColumnName("CreatedBy").HasMaxLength(100);
+            entity.Property(e => e.ApprovedBy).HasColumnName("ApprovedBy").HasMaxLength(100);
+            entity.Property(e => e.ApprovedDate).HasColumnName("ApprovedDate");
+        });
+
+        // Configure Penalty entity
+        modelBuilder.Entity<Penalty>(entity =>
+        {
+            entity.ToTable("Penalties");
+            entity.HasKey(e => e.Id);
+            entity.Property(e => e.Id).HasColumnName("Id");
+            entity.Property(e => e.FromRange).HasColumnName("FromRange");
+            entity.Property(e => e.ToRange).HasColumnName("ToRange");
+            entity.Property(e => e.Charge).HasColumnName("Charge");
         });
     }
 }
